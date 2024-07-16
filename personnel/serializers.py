@@ -25,10 +25,17 @@ class PersonnelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Personnel
         fields = "__all__"
-        read_only_fields = ("id",)
+        read_only_fields = ("id", "user", "start_date",
+                            "updated_date", "department_name", "working_since")
 
     def get_department_name(self, obj):
         return obj.department.name
 
     def get_working_since(self, obj):
         return (now() - obj.start_date).days
+
+    def create(self, validated_data):
+        validated_data["user"] = self.context["request"].user
+
+        instance = Personnel.objects.create(**validated_data)
+        return instance
