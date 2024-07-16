@@ -12,7 +12,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
         read_only_fields = ("id",)
 
     def get_personnel_count(self, obj):
-        return obj.personnel_set.count()
+        # return obj.personnel_set.count()
+        return obj.personnel.count()
 
 
 class PersonnelSerializer(serializers.ModelSerializer):
